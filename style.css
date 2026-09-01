@@ -1,0 +1,519 @@
+/* ============================================================
+   CSS 5단계 설계 순서 적용
+
+     1단계 리셋 / 전역      → 파일 최상단에 한 번
+     2단계 레이아웃 (큰 틀)  ┐
+     3단계 컴포넌트 스타일   ├ 컴포넌트 블록마다 이 순서로 반복
+     4단계 세부 조정        ┘
+     5단계 반응형 처리      → 파일 최하단에 한 번
+============================================================ */
+
+/* ============================================================
+   CSS 변수: 색상 테마
+============================================================ */
+:root {
+  /* 사이드바 (어두운 영역) */
+  --ad-side: #1e293b;
+  --ad-side-text: #94a3b8;
+  --ad-side-active: #334155;
+
+  /* 본문 (밝은 영역) */
+  --ad-bg: #f1f5f9;
+  --ad-surface: #ffffff;
+  --ad-line: #e2e8f0;
+  --ad-text: #1e293b;
+  --ad-sub: #64748b;
+
+  --ad-primary: #4f46e5;
+  --ad-up: #16a34a;
+  --ad-down: #dc2626;
+}
+
+/* ============================================================
+   1단계: 리셋 / 전역 스타일
+============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+  background: var(--ad-bg);
+  color: var(--ad-text);
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ============================================================
+   컴포넌트: APP LAYOUT (사이드바 + 메인)
+============================================================ */
+
+/* --- 2단계: 레이아웃 --- */
+.app-layout {
+  display: flex;
+  /* 내용이 짧아도 사이드바가 화면 아래까지 이어지게 한다 */
+  min-height: 100vh;
+}
+
+.sidebar {
+  flex: 0 0 240px; /* 항상 240px 고정 */
+  background: var(--ad-side);
+  padding: 20px 12px;
+}
+
+.main-content {
+  flex: 1; /* 나머지 전부 */
+}
+
+/* ============================================================
+   컴포넌트: SIDEBAR (로고 + 메뉴)
+============================================================ */
+
+/* --- 3단계: 컴포넌트 스타일 --- */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px 20px;
+}
+
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--ad-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.brand-name {
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.nav-label {
+  font-size: 11px;
+  color: var(--ad-sub);
+  padding: 14px 8px 6px;
+  letter-spacing: 1px;
+}
+
+.nav-item {
+  display: block; /* a는 inline이라 나란히 붙는다 */
+  padding: 9px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--ad-side-text);
+}
+
+/* 복합 선택자: 두 클래스를 동시에 가진 요소만 */
+.nav-item.active {
+  background: var(--ad-side-active);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ============================================================
+   컴포넌트: TOPBAR (검색 + 프로필)
+============================================================ */
+
+/* --- 2단계: 레이아웃 --- */
+.topbar {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+  background: var(--ad-surface);
+  border-bottom: 1px solid var(--ad-line);
+}
+
+/* --- 3단계: 컴포넌트 스타일 --- */
+.search {
+  flex: 1;
+  max-width: 360px;
+  padding: 8px 12px;
+  border: 1px solid var(--ad-line);
+  border-radius: 6px;
+  font-size: 13px;
+  background: var(--ad-bg);
+}
+
+.profile {
+  margin-left: auto; /* 오른쪽 끝으로 */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* 상단바와 활동 목록에서 함께 쓰는 원형 표시 */
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%; /* 가로세로가 같아야 정원 */
+  background: var(--ad-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   컴포넌트: PAGE (본문 공통)
+============================================================ */
+
+/* --- 2단계: 레이아웃 --- */
+.page {
+  padding: 24px;
+}
+
+/* --- 3단계: 컴포넌트 스타일 --- */
+.page-head {
+  margin-bottom: 20px;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.page-date {
+  font-size: 13px;
+  color: var(--ad-sub);
+  margin-top: 2px;
+}
+
+/* ============================================================
+   컴포넌트: STAT CARD (통계 카드)
+============================================================ */
+
+/* --- 2단계: 레이아웃 --- */
+.stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  /* 기준 폭 160px. 넓으면 4개, 좁아지면 2개, 더 좁아지면 1개 */
+  flex: 1 1 160px;
+}
+
+/* --- 3단계: 컴포넌트 스타일 --- */
+.stat-card {
+  background: var(--ad-surface);
+  border: 1px solid var(--ad-line);
+  border-radius: 10px;
+  padding: 18px;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--ad-sub);
+}
+
+.stat-value {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 6px 0 4px;
+}
+
+.stat-diff {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.stat-diff.up {
+  color: var(--ad-up);
+}
+.stat-diff.down {
+  color: var(--ad-down);
+}
+
+/* ============================================================
+   공통: CARD (여러 곳에서 쓰는 상자)
+   표, 차트, 활동 목록이 모두 이 모양을 쓴다.
+   일부만 다르게 할 .table-card 보다 먼저 선언해야
+   나중 규칙이 이 값을 덮어쓸 수 있다
+============================================================ */
+
+/* --- 3단계: 컴포넌트 스타일 --- */
+.card {
+  background: var(--ad-surface);
+  border: 1px solid var(--ad-line);
+  border-radius: 10px;
+  padding: 18px;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* ============================================================
+   컴포넌트: ORDER TABLE (주문 목록)
+============================================================ */
+
+/* --- 2단계: 레이아웃 --- */
+.table-card {
+  padding: 18px 0 0; /* 표를 카드 끝까지 붙인다 */
+  margin-bottom: 20px;
+}
+
+.table-card .card-title {
+  padding: 0 18px;
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+/* --- 3단계: 컴포넌트 스타일 --- */
+.order-table th {
+  background: var(--ad-bg); /* 본문 배경색을 재사용 */
+  text-align: left;
+  padding: 10px 18px;
+  color: var(--ad-sub);
+  font-weight: 600;
+  border-bottom: 1px solid var(--ad-line);
+}
+
+.order-table td {
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--ad-line);
+}
+
+.order-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* 상태 뱃지 */
+.badge {
+  display: inline-block; /* span은 inline이라 padding이 제대로 먹지 않는다 */
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* 배경은 연하게, 글자는 진하게. 눈에 띄되 주인공은 아니게 */
+.badge.done {
+  background: #dcfce7;
+  color: #166534;
+}
+.badge.shipping {
+  background: #dbeafe;
+  color: #1e40af;
+}
+.badge.waiting {
+  background: #fef3c7;
+  color: #92400e;
+}
+.badge.canceled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* ============================================================
+   컴포넌트: PANEL ROW (차트 + 활동)
+============================================================ */
+
+/* --- 2단계: 레이아웃 --- */
+.panel-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.chart-card {
+  flex: 2 1 320px; /* 남는 공간을 2 대 1로 나눠 갖는다 */
+}
+
+.activity-card {
+  flex: 1 1 240px;
+}
+
+/* --- 3단계: 컴포넌트 스타일 --- */
+
+/* 막대 그래프 */
+.chart-body {
+  display: flex;
+  /* flex-end로 막대를 아래에 붙여야 위로 자란다.
+     기본값 stretch면 모든 막대가 같은 높이가 된다 */
+  align-items: flex-end;
+  gap: 10px;
+  height: 180px;
+}
+
+.bar {
+  flex: 1;
+  background: var(--ad-primary);
+  border-radius: 6px 6px 0 0;
+  min-height: 4px; /* 값이 0이어도 보이게 */
+}
+
+.chart-labels {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.chart-labels span {
+  /* 막대와 같은 flex: 1 이라 위치가 정확히 맞는다 */
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  color: var(--ad-sub);
+}
+
+/* 활동 목록 */
+.activity-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--ad-line);
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.activity-text p {
+  font-size: 13px;
+}
+
+.activity-time {
+  color: var(--ad-sub);
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+/* ============================================================
+   4단계: 세부 조정 (hover 효과)
+   transition은 기본 선택자에, 변화는 :hover에
+============================================================ */
+.nav-item {
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.nav-item:hover {
+  background: var(--ad-side-active);
+  color: #fff;
+}
+
+.search {
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+/* :focus는 마우스를 떼도 유지된다.
+   outline을 지웠다면 반드시 다른 표시를 넣어야 한다 */
+.search:focus {
+  outline: none;
+  border-color: var(--ad-primary);
+  background: var(--ad-surface);
+}
+
+.stat-card,
+.card {
+  transition: box-shadow 0.2s ease;
+}
+
+.stat-card:hover,
+.card:hover {
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+/* tbody로 범위를 좁혀야 헤더 줄이 반응하지 않는다 */
+.order-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.order-table tbody tr:hover {
+  background: var(--ad-bg);
+}
+
+/* ============================================================
+   5단계: 반응형 처리
+============================================================ */
+
+/* 태블릿: 1024px 이하 */
+@media (max-width: 1024px) {
+  .chart-card,
+  .activity-card {
+    flex-basis: 100%;
+  }
+}
+
+/* 모바일: 768px 이하 */
+@media (max-width: 768px) {
+  /* 사이드바를 위쪽 가로 메뉴로 */
+  .app-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    /* 세로 배치에서는 basis가 "높이"로 해석되므로 auto로 푼다 */
+    flex: 0 0 auto;
+    padding: 12px;
+  }
+
+  .side-nav {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto; /* 메뉴가 넘치면 옆으로 스크롤 */
+  }
+
+  .nav-label {
+    display: none;
+  }
+
+  .nav-item {
+    white-space: nowrap; /* 메뉴 이름이 줄바꿈되지 않게 */
+    flex-shrink: 0; /* 눌려서 글자가 깨지지 않게 */
+  }
+
+  .stat-card {
+    flex-basis: 100%;
+  }
+
+  .page {
+    padding: 16px;
+  }
+
+  .order-table th,
+  .order-table td {
+    padding: 10px 12px;
+  }
+}
